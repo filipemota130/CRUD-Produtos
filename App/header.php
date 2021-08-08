@@ -11,5 +11,5 @@
 </head>
 <body>
 <nav class="navbar navbar-light bg-dark">
-  <a class="navbar-brand text-light px-5" href='#'>E-commerce shop</a>
+  <a class="navbar-brand text-light ps-4" href='index.php'>CRUD - Produtos</a>
 </nav>

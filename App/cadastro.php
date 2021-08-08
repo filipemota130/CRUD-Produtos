@@ -5,8 +5,9 @@ include_once 'header.php';
 <text class='d-flex justify-content-center h3 pb-3'>Cadastro de produto</text>
 <form action='model/produtoDAO.php' method='POST' enctype="multipart/form-data">
   <div class="mb-3">
-    <label for="formFile" class="form-label">Imagem do produto</label>
+    <label for="formFile" class="form-label">Imagem do produto:</label>
     <input class="form-control" type="file" name='imagem' id="formFile">
+    <text class="form-label">*tamanho maximo 5MB*</text>
   </div>
   <div class="form-group col pt-3">
     <label class="col-sm-2 col-form-label">Nome do item:</label>
@@ -49,16 +50,6 @@ include_once 'header.php';
 </div>
 </form>
 </div>
-<style>
-  .clicked{
-
-  }
-  .clicked:focus{
-    background-color: grey !important;
-  }.clicked:visited{
-    background-color: grey !important;
-  }
-</style>
 <script>
   var elements=''
   var num = [1,2,3,4,5,6,7,8,9,10]

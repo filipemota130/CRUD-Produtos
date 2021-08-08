@@ -3,7 +3,7 @@
 require_once '../vendor/autoload.php';
 include_once 'header.php';
 
-$consulta= new \App\Model\ProdutoDAO();
+$consulta= new App\model\produtoDAO();
 
 if(isset($_GET['id'])){
     $consulta->readOne($_GET['id']);
@@ -16,18 +16,11 @@ if(isset($_GET['id'])){
   <?php foreach($consulta->readOne($_GET['id']) as $produto){ ?>
   <input type='hidden' name='id' value='<?php echo $produto['id']; ?>'>
   <label for="formFile" class="form-label">Imagem do produto:</label>
-  <?php if(!$produto['imagem']){ ?> 
-  <div class="mb-3">
-    <input class="form-control" type="file" name='imagem' id="formFile" required>
-  </div>
-  <?php }else{ ?>
     <div class="mb-3">
       <img src="upload/<?php echo $produto['imagem']; ?>" class="card-img-top rounded" style='max-width: 290px;max-height: 290px'  alt="...">
       <br>
       <input class="form-control mt-3" type="file" name='imagem' id="formFile">
     </div>
-    
-  <?php }?>
   <div class="form-group col">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Nome do produto:</label>
     <div class="col-sm-10">
@@ -37,7 +30,7 @@ if(isset($_GET['id'])){
   <div class="form-group col pt-3">
   <label class="col-sm-2 col-form-label">* Nota de avaliação:</label>
   <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-    <select class='form-select form-select-md' name='avaliacao' id='aaaa' required>
+    <select class='form-select form-select-md' name='avaliacao' id='aval' required>
     </select>
   </div>
   </div>
@@ -85,7 +78,7 @@ if(isset($_GET['id'])){
   for(i=0; i < num.length; i++){
     elements += "<option value='"+ num[i] +"'> " + num[i] + "</option>";
   }
-  document.getElementById("aaaa").innerHTML = elements;
+  document.getElementById("aval").innerHTML = elements;
 
 
 </script>

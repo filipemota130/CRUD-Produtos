@@ -4,7 +4,7 @@ require_once '../vendor/autoload.php';
 
 session_start();
 
-$produtoDAO= new \App\Model\ProdutoDAO();
+$produtoDAO= new App\model\produtoDAO();
 $produtoDAO->read();
 
 
@@ -43,13 +43,13 @@ include_once './model/conexao.php';
                 <th>
                     Nome do produto
                 </th>
-                <th>
+                <th class='encurt'>
                     Avaliação
                 </th>
-                <th>
+                <th class='encurt'>
                     Categoria
                 </th>
-                <th class='ps-5'>
+                <th class='ps-5 alinha'>
                     Detalhes
                 </th>
             </tr>
@@ -60,18 +60,18 @@ include_once './model/conexao.php';
                 foreach($produtoDAO->read() as $produto){
             ?>  
                 <th>
-                <img src="upload/<?php echo $produto['imagem']; ?>" class='rounded' style='width:70px; height: 70px;'>
+                <img src="upload/<?php echo $produto['imagem']; ?>" class='rounded image-out' style='width:70px; height: 70px;'>
                 </th>
                 <th class='pt-4'>
                 <?php echo $produto['nome']; ?>
                 </th>
-                <th class='pt-4'>
+                <th class='pt-4 encurt'>
                 <?php echo $produto['avaliacao']; ?>/10
                 </th >
-                <th class='pt-4'>
+                <th class='pt-4 encurt'>
                 <?php echo $produto['categoria']; ?>
                 </th>
-                <th class='d-flex justify-content-center py-4'>
+                <th class='d-flex justify-content-center py-4 ajust'>
                     <a href="detalhes.php?id=<?php echo $produto['id']; ?>" class='px-2'><button class='d-flex btn btn-light justify-content-center' style='width: 40px'><img src='../assets/lupa.png'></button></a>
                     <a href="editar.php?id=<?php echo $produto['id']; ?>" class='px-2'><button class='d-flex btn btn-warning justify-content-center' style='width: 40px'><img src='../assets/pencil.svg'></button></a>
                     <button type='button' class='d-flex btn btn-danger justify-content-center' data-bs-toggle="modal" data-bs-target="#modal<?php echo $produto['id']; ?>a" ><img src='../assets/trash.svg'></button>
@@ -107,7 +107,10 @@ include_once './model/conexao.php';
                 <th>
                 -
                 </th>
-                <th>
+                <th class='encurt'>
+                -
+                </th>
+                <th class='encurt'>
                 -
                 </th>
                 <th>
@@ -115,8 +118,6 @@ include_once './model/conexao.php';
                 </th>
                 <th>
                 -
-                </th>
-                <th>
                 </th>
             <?php } ?>
         </tbody>
@@ -124,6 +125,28 @@ include_once './model/conexao.php';
     <br>
     <a class='btn btn-primary' href='cadastro.php'>+ Novo produto</a>
 </div>
+<style>
+    @media screen and (max-width: 800px){
+        .encurt{
+            opacity:0;
+            visibility: hidden;
+            display:none;
+        }
+        .alinha{
+            padding-left:0 !important;
+        }
+    }
+    @media screen and (max-width:391px){
+        .ajust{
+            padding-bottom: 50px !important;   
+        }
+        .image-out{
+            opacity:0 !important;
+            visibility: hidden !important;
+            display:none !important;
+        }
+    }
+</style>
 <?php
     include_once 'footer.php';
 ?>

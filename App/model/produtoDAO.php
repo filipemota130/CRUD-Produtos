@@ -4,6 +4,7 @@ namespace App\Model;
 require_once 'produto.php';
 require_once 'conexao.php';
 
+global $i;
     class produtoDAO{
         public function create(Produto $produto){
             session_start();
@@ -62,8 +63,10 @@ require_once 'conexao.php';
         }
         public function update(Produto $produto, $imagem){
             session_start();
-            try{
+            if($imagem!=''){
                 unlink("../upload/".$imagem);
+            }
+            try{
                 $sql = 'UPDATE produtos SET nome= ?, descricao= ?, categoria= ?, imagem=?, link=?, avaliacao=? WHERE id=?';
                 $stmt=Conexao::getConexao()->prepare($sql);
                 
@@ -74,7 +77,7 @@ require_once 'conexao.php';
                 $stmt->bindValue(5, $produto->getLink());
                 $stmt->bindValue(6, $produto->getAvaliacao());
                 $stmt->bindValue(7,$produto->getId());
-
+                
                 $stmt->execute();
                 $_SESSION['mensagem'] = 'Produto atualizado com sucesso!';
                 header('Location: ../index.php'); 
@@ -90,7 +93,9 @@ require_once 'conexao.php';
         public function delete($id, $imagem){
             session_start();
             try{
-                unlink("../upload/".$imagem);
+                if($imagem!='image.jpg'){
+                    unlink("../upload/".$imagem);
+                }
                 $sql = 'DELETE FROM produtos WHERE id=?';
                 $stmt=Conexao::getConexao()->prepare($sql);
                 $stmt->bindValue(1,$id);
@@ -108,14 +113,32 @@ require_once 'conexao.php';
         
 
     }
+    
+    function phpAlert($msg) {
+        echo '<script type="text/javascript">alert("' . $msg . '"); window.location="../cadastro.php"</script>';
+    }
+    
     $DAO= new ProdutoDAO();
     if(isset($_POST['btn-cadastro'])){
-        if(isset($_FILES['imagem'])){
-            $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
+        $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
+        if(($extensao!='.jpg') and ($extensao!='.png') and ($extensao!='.gif') and ($extensao!='.jpeg')){
+            phpAlert('Formato da imagem inválido!!');
+            header("Location: ../cadastro.php");
+            exit;
+        }
+        if($_FILES['imagem']['size'] > 1024*1024*100){
+            phpAlert('Tamanho da imagem excedente!!');
+            header("Location: ../cadastro.php");
+            exit;
+        }
+        if($_FILES['imagem']['size'] != 0){
             $nomefinal= md5(time()).$extensao;
             $diretorio= '../upload/';
-
             move_uploaded_file($_FILES['imagem']['tmp_name'], $diretorio.$nomefinal);
+        }
+        
+        else{
+            $nomefinal= 'image.jpg';
         }
         $produto= new Produto();
         $produto->setNome(htmlspecialchars($_POST['nome']));
@@ -129,21 +152,33 @@ require_once 'conexao.php';
 
     if(isset($_POST['btn-editar'])){
         $produto= new Produto();
-        if(isset($_FILES)){
+        if($_FILES['imagem']['size'] != 0){
             $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
             $nomefinal= md5(time()).$extensao;
             $diretorio= '../upload/';
 
             move_uploaded_file($_FILES['imagem']['tmp_name'], $diretorio.$nomefinal);
             $produto->setImagem(htmlspecialchars($nomefinal));
+            $produto->setId(htmlspecialchars($_POST['id']));
+            $produto->setNome(htmlspecialchars($_POST['nome']));
+            $produto->setDescricao(htmlspecialchars($_POST['descricao']));
+            $produto->setCategoria(htmlspecialchars($_POST['categoria']));
+            $produto->setLink(htmlspecialchars($_POST['link']));
+            $produto->setAvaliacao(htmlspecialchars($_POST['avaliacao']));
+            $DAO->update($produto, $_POST['antiga-imagem']);
         }
-        $produto->setId(htmlspecialchars($_POST['id']));
-        $produto->setNome(htmlspecialchars($_POST['nome']));
-        $produto->setDescricao(htmlspecialchars($_POST['descricao']));
-        $produto->setCategoria(htmlspecialchars($_POST['categoria']));
-        $produto->setLink(htmlspecialchars($_POST['link']));
-        $produto->setAvaliacao(htmlspecialchars($_POST['avaliacao']));
-        $DAO->update($produto, $_POST['antiga-imagem']);
+        else{
+            $nomefinal= $_POST['antiga-imagem'];
+            $produto->setImagem(htmlspecialchars($nomefinal));
+            $produto->setId(htmlspecialchars($_POST['id']));
+            $produto->setNome(htmlspecialchars($_POST['nome']));
+            $produto->setDescricao(htmlspecialchars($_POST['descricao']));
+            $produto->setCategoria(htmlspecialchars($_POST['categoria']));
+            $produto->setLink(htmlspecialchars($_POST['link']));
+            $produto->setAvaliacao(htmlspecialchars($_POST['avaliacao']));
+            $DAO->update($produto, '');
+        }
+        
     };
 
     if(isset($_POST['btn-excluir'])){
