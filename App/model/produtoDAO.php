@@ -113,25 +113,22 @@ global $i;
         
 
     }
-    
-    function phpAlert($msg) {
-        echo '<script type="text/javascript">alert("' . $msg . '"); window.location="../cadastro.php"</script>';
-    }
-    
     $DAO= new ProdutoDAO();
     if(isset($_POST['btn-cadastro'])){
-        $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
-        if(($extensao!='.jpg') and ($extensao!='.png') and ($extensao!='.gif') and ($extensao!='.jpeg')){
-            phpAlert('Formato da imagem inválido!!');
-            header("Location: ../cadastro.php");
-            exit;
-        }
-        if($_FILES['imagem']['size'] > 1024*1024*100){
-            phpAlert('Tamanho da imagem excedente!!');
-            header("Location: ../cadastro.php");
-            exit;
-        }
         if($_FILES['imagem']['size'] != 0){
+            $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
+            if(($extensao!='.jpg') and ($extensao!='.png') and ($extensao!='.gif') and ($extensao!='.jpeg')){
+                session_start();
+                $_SESSION['mensagem'] = 'Formato de imagem inválido!';
+                header("Location: ../cadastro.php");
+                exit;
+            }
+            if($_FILES['imagem']['size'] > 1024*1024*100){
+                session_start();
+                $_SESSION['mensagem'] = 'Tamanho da imagem excedente!';
+                header("Location: ../cadastro.php");
+                exit;
+            }
             $nomefinal= md5(time()).$extensao;
             $diretorio= '../upload/';
             move_uploaded_file($_FILES['imagem']['tmp_name'], $diretorio.$nomefinal);
@@ -151,9 +148,24 @@ global $i;
     };
 
     if(isset($_POST['btn-editar'])){
+        
         $produto= new Produto();
+        
         if($_FILES['imagem']['size'] != 0){
             $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
+            $id=$_POST['id'];
+            if(($extensao!='.jpg') and ($extensao!='.png') and ($extensao!='.gif') and ($extensao!='.jpeg')){
+                session_start();
+                $_SESSION['mensagem'] = 'Formato de imagem inválido!';
+                header("Location: ../editar.php?id=$id");
+                exit;
+            }
+            if($_FILES['imagem']['size'] > 1024*1024*100){
+                session_start();
+                $_SESSION['mensagem'] = 'Tamanho da imagem excedente!';
+                header("Location: ../editar.php?id=$id");
+                exit;
+            }
             $nomefinal= md5(time()).$extensao;
             $diretorio= '../upload/';
 

@@ -1,4 +1,21 @@
 <?php
+
+session_start();
+
+if(isset($_SESSION['mensagem'])){ ?>
+<script>
+  window.onload = function(){
+        <?php if ($_SESSION['mensagem']=='Formato de imagem inválido!' or $_SESSION['mensagem']=='Tamanho da imagem excedente!'){ ?>
+        Swal.fire({
+            icon: 'error',
+            title: '<?php echo $_SESSION['mensagem']; ?>',
+        })
+        <?php }?>
+    } 
+</script>
+<?php
+}
+session_unset();
 include_once 'header.php';
 ?>
 <div class='container p-5'>

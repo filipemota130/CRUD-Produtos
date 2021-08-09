@@ -1,6 +1,24 @@
 <?php
 
 require_once '../vendor/autoload.php';
+
+session_start();
+
+if(isset($_SESSION['mensagem'])){ ?>
+<script>
+  window.onload = function(){
+        <?php if ($_SESSION['mensagem']=='Formato de imagem inválido!' or $_SESSION['mensagem']=='Tamanho da imagem excedente!'){ ?>
+        Swal.fire({
+            icon: 'error',
+            title: '<?php echo $_SESSION['mensagem']; ?>',
+        })
+        <?php }?>
+    } 
+</script>
+<?php
+}
+session_unset();
+
 include_once 'header.php';
 
 $consulta= new App\model\produtoDAO();
@@ -28,14 +46,14 @@ if(isset($_GET['id'])){
     </div>
   </div>
   <div class="form-group col pt-3">
-  <label class="col-sm-2 col-form-label">* Nota de avaliação:</label>
+  <label class="col-sm-2 col-form-label text-danger">* Nota de avaliação:</label>
   <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
     <select class='form-select form-select-md' name='avaliacao' id='aval' required>
     </select>
   </div>
   </div>
  <div class="form-group pt-3">
-    <label for="exampleFormControlSelect1" class='pb-2'>* Categoria:</label>
+    <label for="exampleFormControlSelect1" class='pb-2 text-danger'>* Categoria:</label>
     <select class="form-select" name='categoria' id="select" required>
     </select>
   </div>
