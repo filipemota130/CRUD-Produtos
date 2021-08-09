@@ -120,23 +120,22 @@ global $i;
     
     $DAO= new ProdutoDAO();
     if(isset($_POST['btn-cadastro'])){
-        $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
-        if(($extensao!='.jpg') and ($extensao!='.png') and ($extensao!='.gif') and ($extensao!='.jpeg')){
-            phpAlert('Formato da imagem inválido!!');
-            header("Location: ../cadastro.php");
-            exit;
-        }
-        if($_FILES['imagem']['size'] > 1024*1024*100){
-            phpAlert('Tamanho da imagem excedente!!');
-            header("Location: ../cadastro.php");
-            exit;
-        }
         if($_FILES['imagem']['size'] != 0){
+            $extensao= strtolower(substr($_FILES['imagem']['name'],-4));
+            if(($extensao!='.jpg') and ($extensao!='.png') and ($extensao!='.gif') and ($extensao!='.jpeg')){
+                phpAlert('Formato da imagem inválido!!');
+                header("Location: ../cadastro.php");
+                exit;
+            }
+            if($_FILES['imagem']['size'] > 1024*1024*100){
+                phpAlert('Tamanho da imagem excedente!!');
+                header("Location: ../cadastro.php");
+                exit;
+            }
             $nomefinal= md5(time()).$extensao;
             $diretorio= '../upload/';
             move_uploaded_file($_FILES['imagem']['tmp_name'], $diretorio.$nomefinal);
         }
-        
         else{
             $nomefinal= 'image.jpg';
         }
