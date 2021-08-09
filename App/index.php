@@ -33,7 +33,7 @@ include_once 'header.php';
 include_once './model/conexao.php';
 ?>
 
-<div class='container pt-5'>
+<div class='container pt-5 div-prin'>
     <table class='table'>
         <thead>
             <tr>

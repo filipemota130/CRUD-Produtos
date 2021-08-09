@@ -1,4 +1,4 @@
-<footer>
+<footer class='text-muted footer'>
   <!-- Section: Social media -->
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
     © 2021 Copyright:
@@ -8,11 +8,22 @@
 </footer>
 <!-- Footer -->
 <style>
-  footer{
+  .footer{
     width: 100%;
-    position : absolute;
-    bottom : 0;
+    position : relative;
   }
+  html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.div-prin{
+      flex: 1;
+}
 </style>
 <!-- Footer -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

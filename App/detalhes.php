@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
 <?php
     foreach($consulta->readOne($_GET['id']) as $produto){
 ?>
-<div class='d-flex justify-content-center align-center p-4'>
+<div class='d-flex justify-content-center align-center p-4 div-prin'>
     <div class="card" style="width: 40rem;">
     <?php if($produto['imagem']){ ?>
         <img src="upload/<?php echo $produto['imagem']; ?>" class="card-img-top" style='max-height: 290px'  alt="...">

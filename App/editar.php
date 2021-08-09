@@ -28,7 +28,7 @@ if(isset($_GET['id'])){
 }
 
 ?>
-<div class='container p-5'>
+<div class='container p-5 div-prin'>
 <text class='d-flex justify-content-center h3 pb-5'>Editar Produto</text>
 <form action='model/produtoDAO.php' method='POST' enctype="multipart/form-data">
   <?php foreach($consulta->readOne($_GET['id']) as $produto){ ?>
